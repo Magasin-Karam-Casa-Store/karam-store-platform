@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# karam-store-platform
 
-## Getting Started
+Plateforme e-commerce Karamtech — informatique, impression, sécurité, solaire,
+téléphonie et image & sonorisation.
 
-First, run the development server:
+## Structure du dépôt
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+├── storefront/   Boutique Next.js 16 (App Router, TypeScript, Tailwind v4)
+├── server/       API Express + MongoDB
+├── client/       Scaffold Vite initial
+└── docker-compose.yml
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Note pour l'équipe.** `client/` (Vite) et `storefront/` (Next.js) sont deux
+> frontends issus de deux chantiers menés en parallèle. `storefront/` porte
+> aujourd'hui la boutique complète. Il reste à décider en équipe lequel des deux
+> on garde ; en attendant, rien n'a été supprimé.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Démarrage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Storefront
 
-## Learn More
+```bash
+cd storefront
+npm install
+npm run dev          # http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+Aucune variable d'environnement n'est requise : le catalogue est généré
+localement dans `storefront/src/data/generated/`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Pour rafraîchir le catalogue depuis le site en production :
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd storefront
+node scripts/scrape-karamtech.mjs
+```
 
-## Deploy on Vercel
+### API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+cd server
+npm install
+npm start            # http://localhost:5000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Nécessite `MONGO_URI` dans un fichier `.env`.
+
+### Tout lancer avec Docker
+
+```bash
+docker compose up
+```
+
+| Service      | Port |
+| ------------ | ---- |
+| `storefront` | 3000 |
+| `client`     | 5173 |
+| `server`     | 5000 |
+
+## Déploiement (Vercel)
+
+Pour déployer le storefront, définir **Root Directory** sur `storefront`.
+Le framework est détecté automatiquement et aucune variable d'environnement
+n'est nécessaire.
+
+## Workflow Git
+
+Le dépôt suit GitFlow : les branches `feature/*` partent de `develop` et y
+retournent par pull request. `main` reflète la production.
