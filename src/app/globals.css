@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens read from the live karamtech.ma computed styles:
+ *   top bar  rgb(5,38,60)    #05263C
+ *   nav bar  rgb(0,123,196)  #007BC4
+ *   body     Lato 14px rgb(119,119,119)
+ *   titles   Montserrat 600 uppercase
+ *   product  Poppins 14px 500 rgb(51,51,51)
+ */
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
+
+  --brand-primary: #007bc4;
+  --brand-primary-dark: #05619c;
+  --brand-dark: #05263c;
+  --brand-slate: #0f3a54;
+  --brand-gray-bg: #f7f7f7;
+  --brand-border: #e6e6e6;
+  --brand-accent: #ff6a00;
+
+  /* Text scale */
+  --text-body: #777777;
+  --text-heading: #333333;
+  --text-muted: #a5a5a5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brand: var(--brand-primary);
+  --color-brand-dark: var(--brand-primary-dark);
+  --color-brand-navy: var(--brand-dark);
+  --color-brand-slate: var(--brand-slate);
+  --color-brand-gray: var(--brand-gray-bg);
+  --color-brand-border: var(--brand-border);
+  --color-brand-accent: var(--brand-accent);
+
+  --color-body: var(--text-body);
+  --color-heading: var(--text-heading);
+  --color-muted: var(--text-muted);
+
+  --font-sans: var(--font-lato), Arial, Helvetica, sans-serif;
+  --font-heading: var(--font-montserrat), Arial, Helvetica, sans-serif;
+  --font-product: var(--font-poppins), Arial, Helvetica, sans-serif;
+}
+
+/*
+ * These defaults must live in @layer base so Tailwind utilities (which sit in
+ * the utilities layer) still win. Unlayered rules beat every utility, which
+ * previously made `text-white` on a heading silently render as #333.
+ */
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--text-body);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* WoodMart uses Montserrat for every heading level. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+    color: var(--text-heading);
+  }
+}
+
+.container-app {
+  width: 100%;
+  max-width: 1222px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .container-app {
+    padding-inline: 1.5rem;
+  }
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Swiper arrows/pagination restyled to the Karamtech palette. */
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--brand-primary);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--brand-primary);
+}
