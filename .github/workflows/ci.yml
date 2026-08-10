@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+# Branch protection needs a paid plan on private repos, so this workflow is the
+# safety net: every pull request is linted, built and type-checked before review.
+jobs:
+  storefront:
+    name: Storefront (Next.js)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: storefront
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: storefront/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npx eslint .
+
+      # `next build` also type-checks, and it generates the route types
+      # (PageProps, LayoutProps) that a bare `tsc` run would not find.
+      - name: Build
+        run: npm run build
+
+      # Run after the build so the generated types in .next/types exist.
+      - name: Type check
+        run: npx tsc --noEmit
+
+  server:
+    name: API (Express)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      # No test suite yet; this at least catches syntax errors on every PR.
+      - name: Syntax check
+        run: node --check index.js

@@ -1,4 +1,6 @@
 services:
+  # Vite scaffold from the initial project setup. Kept until the team decides
+  # which frontend to carry forward (see storefront/).
   client:
     build: ./client
     ports:
@@ -6,6 +8,17 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+
+  # Next.js storefront: the Karamtech catalogue, cart and checkout.
+  storefront:
+    build: ./storefront
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./storefront:/app
+      - /app/node_modules
+      - /app/.next
+
   server:
     build: ./server
     ports:
