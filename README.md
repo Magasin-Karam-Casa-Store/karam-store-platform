@@ -47,6 +47,15 @@ Correctif propre — autoriser le fichier dans la sécurité Windows :
 débloquer `next-swc.win32-x64-msvc.node`. Turbopack redevient disponible et le
 démarrage est nettement plus rapide.
 
+Si la stratégie est imposée par l'entreprise et ne peut pas être modifiée, la
+même politique bloque aussi `@tailwindcss/oxide` et Webpack ne suffit plus.
+Passer par Docker (ci-dessous) : le code s'exécute alors sous Linux et n'est
+plus concerné.
+
+```bash
+docker compose up storefront     # http://localhost:3000
+```
+
 Pour rafraîchir le catalogue depuis le site en production :
 
 ```bash
