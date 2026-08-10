@@ -30,6 +30,23 @@ npm run dev          # http://localhost:3000
 Aucune variable d'environnement n'est requise : le catalogue est généré
 localement dans `storefront/src/data/generated/`.
 
+#### Windows : « Turbopack is not supported on this platform »
+
+Sur certains postes Windows, une stratégie de contrôle d'application bloque le
+binaire natif de Next (`@next/swc-win32-x64-msvc`). Next bascule alors sur les
+bindings WASM, que Turbopack ne sait pas utiliser.
+
+Contournement immédiat — utiliser Webpack :
+
+```bash
+npm run dev:webpack     # ou: npm run build:webpack
+```
+
+Correctif propre — autoriser le fichier dans la sécurité Windows :
+`Sécurité Windows → Contrôle des applications et du navigateur`, puis
+débloquer `next-swc.win32-x64-msvc.node`. Turbopack redevient disponible et le
+démarrage est nettement plus rapide.
+
 Pour rafraîchir le catalogue depuis le site en production :
 
 ```bash
