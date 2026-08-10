@@ -69,3 +69,28 @@ n'est nécessaire.
 
 Le dépôt suit GitFlow : les branches `feature/*` partent de `develop` et y
 retournent par pull request. `main` reflète la production.
+
+```bash
+git switch develop && git pull
+git switch -c feature/ma-fonctionnalite
+# ... commits ...
+git push -u origin feature/ma-fonctionnalite   # puis ouvrir une PR vers develop
+```
+
+### Protection des branches
+
+La protection de branches côté GitHub nécessite un plan payant sur les dépôts
+privés. En attendant, deux garde-fous gratuits sont en place :
+
+1. **CI** (`.github/workflows/ci.yml`) — chaque PR vers `main` ou `develop` est
+   lintée, buildée et type-checkée automatiquement.
+2. **Hook local** — refuse les `git push` directs sur `main` et `develop`.
+   À installer une fois par machine :
+
+   ```bash
+   sh scripts/install-git-hooks.sh
+   ```
+
+Si le dépôt passe un jour sur GitHub Team, activer en plus :
+`Settings → Rules → New ruleset` (require pull request, block force pushes et
+suppressions sur `main` et `develop`).
