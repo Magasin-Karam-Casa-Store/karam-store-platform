@@ -25,15 +25,20 @@ const tabs = [
 
 export default function NewArrivalsTabs() {
   return (
-    <section className="container-app py-12">
+    <section className="container-app py-16 lg:py-20">
       <Tabs.Root defaultValue={tabs[0].path}>
-        <SectionTitle title="Nouvel arrivage">
-          <Tabs.List className="flex flex-wrap gap-x-5 gap-y-2">
+        <SectionTitle
+          eyebrow="Fraîchement arrivé"
+          title="Nouvel arrivage"
+          description="Les dernières références ajoutées au catalogue."
+        >
+          {/* Pill tab bar, scrollable on narrow screens. */}
+          <Tabs.List className="-mx-1 flex max-w-full gap-1.5 overflow-x-auto px-1 pb-1">
             {tabs.map((tab) => (
               <Tabs.Trigger
                 key={tab.path}
                 value={tab.path}
-                className="text-xs font-semibold uppercase tracking-wide text-gray-400 transition-colors hover:text-brand-navy data-[state=active]:text-brand"
+                className="shrink-0 whitespace-nowrap rounded-full border border-brand-border px-4 py-2 text-xs font-semibold text-body transition-colors hover:border-brand hover:text-brand data-[state=active]:border-brand-navy data-[state=active]:bg-brand-navy data-[state=active]:text-white"
               >
                 {tab.name}
               </Tabs.Trigger>

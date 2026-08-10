@@ -1,82 +1,118 @@
 @import "tailwindcss";
 
 /*
- * Design tokens read from the live karamtech.ma computed styles:
- *   top bar  rgb(5,38,60)    #05263C
- *   nav bar  rgb(0,123,196)  #007BC4
- *   body     Lato 14px rgb(119,119,119)
- *   titles   Montserrat 600 uppercase
- *   product  Poppins 14px 500 rgb(51,51,51)
+ * Karamtech design system.
+ *
+ * The brand blue and navy are inherited from karamtech.ma so the storefront
+ * still reads as theirs, but the scale, spacing and surface treatment below are
+ * our own: a deeper ink for text, softer neutrals, layered shadows and a single
+ * accent used sparingly for calls to action.
  */
 :root {
   --background: #ffffff;
-  --foreground: #333333;
 
+  /* Brand */
   --brand-primary: #007bc4;
-  --brand-primary-dark: #05619c;
+  --brand-primary-dark: #0064a3;
+  --brand-primary-light: #e8f4fc;
   --brand-dark: #05263c;
   --brand-slate: #0f3a54;
-  --brand-gray-bg: #f7f7f7;
-  --brand-border: #e6e6e6;
   --brand-accent: #ff6a00;
 
-  /* Text scale */
-  --text-body: #777777;
-  --text-heading: #333333;
-  --text-muted: #a5a5a5;
+  /* Neutrals — cooler and higher contrast than the reference site */
+  --surface: #ffffff;
+  --surface-muted: #f6f8fa;
+  --surface-sunken: #eef2f6;
+  --border-subtle: #e8edf2;
+  --border-strong: #d6dee6;
+
+  /* Text */
+  --text-heading: #0d1b2a;
+  --text-body: #5b6b7c;
+  --text-muted: #93a1b0;
+
+  /* Elevation — layered rather than a single flat drop shadow */
+  --shadow-sm: 0 1px 2px rgb(13 27 42 / 0.04), 0 1px 3px rgb(13 27 42 / 0.06);
+  --shadow-md: 0 2px 4px rgb(13 27 42 / 0.04), 0 8px 16px rgb(13 27 42 / 0.08);
+  --shadow-lg: 0 4px 8px rgb(13 27 42 / 0.04), 0 16px 32px rgb(13 27 42 / 0.10);
+  --shadow-brand: 0 8px 24px rgb(0 123 196 / 0.22);
+
+  --radius: 12px;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
 
   --color-brand: var(--brand-primary);
   --color-brand-dark: var(--brand-primary-dark);
+  --color-brand-light: var(--brand-primary-light);
   --color-brand-navy: var(--brand-dark);
   --color-brand-slate: var(--brand-slate);
-  --color-brand-gray: var(--brand-gray-bg);
-  --color-brand-border: var(--brand-border);
   --color-brand-accent: var(--brand-accent);
 
-  --color-body: var(--text-body);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-sunken: var(--surface-sunken);
+
+  /* Kept as brand-gray/brand-border so existing markup keeps working. */
+  --color-brand-gray: var(--surface-muted);
+  --color-brand-border: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+
   --color-heading: var(--text-heading);
+  --color-body: var(--text-body);
   --color-muted: var(--text-muted);
 
   --font-sans: var(--font-lato), Arial, Helvetica, sans-serif;
   --font-heading: var(--font-montserrat), Arial, Helvetica, sans-serif;
   --font-product: var(--font-poppins), Arial, Helvetica, sans-serif;
+
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-lg);
+  --shadow-brand: var(--shadow-brand);
+
+  --radius-card: var(--radius);
 }
 
 /*
- * These defaults must live in @layer base so Tailwind utilities (which sit in
- * the utilities layer) still win. Unlayered rules beat every utility, which
- * previously made `text-white` on a heading silently render as #333.
+ * Base rules must sit in @layer base so Tailwind utilities still win. An
+ * unlayered rule beats every utility, which previously made `text-white` on a
+ * heading silently render as the heading colour.
  */
 @layer base {
   body {
     background: var(--background);
     color: var(--text-body);
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* WoodMart uses Montserrat for every heading level. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
     color: var(--text-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  /* Visible focus ring for keyboard users, suppressed for mouse clicks. */
+  :focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
 .container-app {
   width: 100%;
-  max-width: 1222px;
+  max-width: 1280px;
   margin-inline: auto;
   padding-inline: 1rem;
 }
 
 @media (min-width: 1024px) {
   .container-app {
-    padding-inline: 1.5rem;
+    padding-inline: 2rem;
   }
 }
 
@@ -87,18 +123,55 @@
   overflow: hidden;
 }
 
-/* Swiper arrows/pagination restyled to the Karamtech palette. */
+/* Swiper chrome restyled to match the design system. */
 .swiper-button-next,
 .swiper-button-prev {
-  color: var(--brand-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-heading);
+  box-shadow: var(--shadow-md);
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  transform: scale(1.06);
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.swiper-pagination-bullet {
+  background: var(--border-strong);
+  opacity: 1;
+  transition: width 0.25s, background-color 0.25s;
 }
 
 .swiper-pagination-bullet-active {
+  width: 24px;
+  border-radius: 999px;
   background: var(--brand-primary);
+}
+
+/* Slow ambient drift used behind the hero artwork. */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow {
+    animation: none;
+  }
 }

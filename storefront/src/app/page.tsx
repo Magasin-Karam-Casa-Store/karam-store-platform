@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import HeroSlider from "@/components/home/HeroSlider";
 import PopularCategories from "@/components/home/PopularCategories";
 import NewArrivalsTabs from "@/components/home/NewArrivalsTabs";
@@ -14,26 +12,23 @@ export default function Home() {
 
   return (
     <>
-      {/* Full-bleed hero, matching the edge-to-edge banner on karamtech.ma. */}
       <HeroSlider />
+
+      <TrustBadges />
 
       <PopularCategories />
 
-      <section className="container-app py-12">
-        <SectionTitle title="Meilleures ventes">
-          <Link
-            href="/recherche"
-            className="ml-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-brand transition-all hover:gap-2"
-          >
-            Voir tout <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </SectionTitle>
+      <section className="container-app py-16 lg:py-20">
+        <SectionTitle
+          eyebrow="Les plus demandés"
+          title="Meilleures ventes"
+          description="Les références que nos clients professionnels commandent le plus."
+          href="/recherche"
+        />
         <ProductCarousel products={bestSellers} />
       </section>
 
       <NewArrivalsTabs />
-
-      <TrustBadges />
 
       <BrandSlider />
     </>

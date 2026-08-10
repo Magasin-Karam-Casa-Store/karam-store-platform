@@ -20,15 +20,20 @@ export default function Header() {
     <header className="border-b border-brand-border bg-white">
       <div className="container-app flex items-center gap-4 py-4">
         <MobileMenu />
-        <Link href="/" className="shrink-0" aria-label="Karamtech - Accueil">
+        {/* Fixed-ratio box so next/image has both dimensions and stops warning
+            about a CSS-modified aspect ratio. */}
+        <Link
+          href="/"
+          aria-label="Karamtech - Accueil"
+          className="relative h-10 w-[150px] shrink-0 sm:h-12 sm:w-[180px]"
+        >
           <Image
             src={LOGO_URL}
             alt="Karamtech"
-            width={180}
-            height={48}
+            fill
             priority
-            style={{ width: "auto", height: "auto" }}
-            className="max-h-10 w-auto object-contain sm:max-h-12"
+            sizes="180px"
+            className="object-contain object-left"
           />
         </Link>
 
