@@ -1,6 +1,10 @@
-import type { NextConfig } from "next";
+// Kept as .mjs rather than .ts on purpose: loading a TypeScript config requires
+// the native SWC binary, which Windows Application Control blocks on some
+// machines. Next then falls back to the WASM build and fails to parse the
+// config at all. Plain ESM is loaded directly and works everywhere.
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "picsum.photos" },
