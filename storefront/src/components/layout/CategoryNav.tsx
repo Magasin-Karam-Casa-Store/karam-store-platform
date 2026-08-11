@@ -5,7 +5,18 @@ import Image from "next/image";
 import { useState } from "react";
 import { Menu, ChevronDown, ChevronRight } from "lucide-react";
 import { categories } from "@/data/categories";
+import { products } from "@/data/products";
 import type { Category } from "@/types";
+import { navPromos, defaultPromo } from "@/data/nav-promos";
+
+/**
+ * Counts what we actually carry. `category.productCount` comes from the live
+ * taxonomy and is much larger than our catalogue, so it would overstate stock.
+ */
+function countInCatalogue(path: string): number {
+  return products.filter((p) => p.categoryPath === path || p.categoryPath.startsWith(`${path}/`))
+    .length;
+}
 
 /**
  * Only renders artwork the taxonomy actually provides. Falling back to a
@@ -31,8 +42,15 @@ function CategoryIcon({ category, className = "h-5 w-5" }: { category: Category;
  * most children.
  */
 function dedupe(nodes: Category[]): Category[] {
+  // Strip accents, punctuation AND French particles, so "Composants de pc" and
+  // "Composants PC" collapse to the same key.
   const normalise = (name: string) =>
-    name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+    name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/\b(de|du|des|la|le|les|et|d|l|a|au|aux|en|pour)\b/g, "")
+      .replace(/[^a-z0-9]/g, "");
 
   const best = new Map<string, Category>();
   for (const node of nodes) {
@@ -45,14 +63,16 @@ function dedupe(nodes: Category[]): Category[] {
   return [...best.values()];
 }
 
-/** Mega-menu panel listing a category's children and grandchildren. */
+/** Mega-menu panel: category columns on the left, a promo tile on the right. */
 function MegaPanel({ category }: { category: Category }) {
   const columns = dedupe(category.children ?? []);
   if (columns.length === 0) return null;
 
+  const promo = navPromos[category.path] ?? defaultPromo;
+
   return (
-    <div className="absolute left-0 top-full z-40 max-h-[70vh] w-[min(980px,92vw)] overflow-y-auto rounded-b-2xl border border-t-0 border-brand-border bg-white p-7 shadow-[var(--shadow-lg)]">
-      <div className="grid grid-cols-2 gap-x-8 gap-y-7 md:grid-cols-3 lg:grid-cols-4">
+    <div className="absolute left-0 top-full z-40 flex max-h-[70vh] w-[min(1040px,92vw)] gap-7 overflow-hidden rounded-b-2xl border border-t-0 border-brand-border bg-white p-7 shadow-[var(--shadow-lg)]">
+      <div className="grid flex-1 grid-cols-2 gap-x-8 gap-y-7 overflow-y-auto md:grid-cols-3">
         {columns.map((sub) => (
           <div key={sub.path}>
             <Link
@@ -80,11 +100,21 @@ function MegaPanel({ category }: { category: Category }) {
         ))}
       </div>
 
+      {/* Promo tile — doubles as the "see everything" entry point. */}
       <Link
         href={`/product-category/${category.path}`}
-        className="mt-6 inline-flex items-center gap-1.5 border-t border-brand-border pt-5 text-xs font-bold uppercase tracking-wide text-brand transition-all hover:gap-2.5"
+        className="group hidden w-56 shrink-0 flex-col justify-between rounded-2xl p-6 text-white lg:flex"
+        style={{ background: promo.gradient }}
       >
-        Voir tout {category.name} <ChevronRight className="h-3.5 w-3.5" />
+        <div>
+          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/70">
+            {countInCatalogue(category.path)} références
+          </span>
+          <p className="mt-2 font-heading text-lg font-extrabold leading-snug">{promo.title}</p>
+        </div>
+        <span className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-2 text-[11px] font-bold uppercase tracking-wide backdrop-blur-sm transition-all group-hover:gap-2.5 group-hover:bg-white group-hover:text-heading">
+          Voir tout <ChevronRight className="h-3.5 w-3.5" />
+        </span>
       </Link>
     </div>
   );
