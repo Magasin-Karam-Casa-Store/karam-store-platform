@@ -7,6 +7,7 @@ import Header from "@/components/layout/Header";
 import CategoryNav from "@/components/layout/CategoryNav";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
+import FloatingActions from "@/components/layout/FloatingActions";
 
 // Sora for display type, Manrope for everything else — per the design system.
 const sora = Sora({
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <CartDrawer />
+        <FloatingActions />
       </body>
     </html>
   );

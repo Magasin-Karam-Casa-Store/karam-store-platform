@@ -4,6 +4,8 @@ import NewArrivalsTabs from "@/components/home/NewArrivalsTabs";
 import BrandSlider from "@/components/home/BrandSlider";
 import TrustBadges from "@/components/home/TrustBadges";
 import ProductCarousel from "@/components/home/ProductCarousel";
+import ServicesSection from "@/components/home/ServicesSection";
+import Newsletter from "@/components/home/Newsletter";
 import SectionTitle from "@/components/ui/section-title";
 import { getBestSellers } from "@/data/products";
 
@@ -28,9 +30,13 @@ export default function Home() {
         <ProductCarousel products={bestSellers} />
       </section>
 
+      <ServicesSection />
+
       <NewArrivalsTabs />
 
       <BrandSlider />
+
+      <Newsletter />
     </>
   );
 }
