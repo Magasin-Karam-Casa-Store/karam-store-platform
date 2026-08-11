@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/components/ui/social-icons";
-import { LOGO_URL } from "@/data/media";
+import { LOGO_URL, PAYMENT_LOGOS_URL } from "@/data/media";
 
 const legalLinks = [
   { label: "Recrutements", href: "/recrutements" },
@@ -28,8 +28,6 @@ const corporateLinks = [
   { label: "À propos", href: "/about-us" },
   { label: "Contact", href: "/contact" },
 ];
-
-const paymentMethods = ["VISA", "Mastercard", "CMI", "Amana", "Paiement à la livraison"];
 
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
@@ -107,16 +105,15 @@ export default function Footer() {
           <span>
             <strong className="font-bold text-white/80">KARAMTECH</strong> {new Date().getFullYear()} — Tous droits réservés.
           </span>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {paymentMethods.map((method) => (
-              <span
-                key={method}
-                className="rounded border border-white/15 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white/70"
-              >
-                {method}
-              </span>
-            ))}
-          </div>
+          {/* Karamtech's own payment-methods strip (Visa, Mastercard, CMI,
+              Amana, cash on delivery) rather than text badges. */}
+          <Image
+            src={PAYMENT_LOGOS_URL}
+            alt="Moyens de paiement acceptés : Visa, Mastercard, CMI, Amana, paiement à la livraison"
+            width={420}
+            height={40}
+            className="h-8 w-auto opacity-90 sm:h-9"
+          />
         </div>
       </div>
     </footer>

@@ -1,5 +1,7 @@
 const U = "https://karamtech.ma/wp-content/uploads";
 
+export const PAYMENT_LOGOS_URL = `${U}/2024/03/Paiement-Logos-Footer.png`;
+
 export const LOGO_URL = `${U}/2024/03/karamtech.png`;
 
 /**
@@ -27,15 +29,17 @@ export const heroProductCutouts = [
 /**
  * Hero subjects — product shots from the live catalogue.
  *
- * Every entry here was verified to carry a real alpha channel (PNG colour type
- * 4/6 or a tRNS chunk). Many catalogue PNGs are actually opaque RGB and render
- * as a white box over the gradient, so do NOT add a URL without checking it.
+ * Every entry was verified by SAMPLING CORNER ALPHA, not by reading the PNG
+ * colour type. Several catalogue PNGs declare an alpha channel yet are fully
+ * opaque, and those render as a white box over the hero gradient. Check any new
+ * URL the same way before adding it.
  */
 export const heroSubjects = {
   cameraBullet: `${U}/2024/03/DAHUA-CAMERA-IP-5M-IPC-HDBW1530S-S6-BULLET_CAMERA-IP_24523_1.png`,
   cameraDome: `${U}/2024/03/DAHUA-CAMERA-IP-2M-DH-IPC-HDW1230T1-A-S5-2.8MM-AUDIO-DOME_CAMERA-IP_24508_1.png`,
   cameraBullet2: `${U}/2024/03/DAHUA-CAMERA-IP-2M-DH-IPC-HFW1230S1-A-S5-AUDIO-BULLET_CAMERA-IP_24510_1.png`,
-  laptop: `${U}/2024/12/DELL-latitude-5440-i5-1335U-14FHD-8-Go-512-Go-SSD-Win-11-PRO-36M_PC-Portable-Laptop_39423_1.png`,
+  monitor: `${U}/2024/06/Gigabyte-ECRAN-27-GS27FC-CURVED-180Hz_ECRAN-PC-MONITEUR_37173_1.png`,
+  desktop: `${U}/2024/03/DELL-VOSTRO-3910-I5-12400-MIDI-TOWER-I5-4-GO-1000-GO-HDD-FREEDOS-SANS-ECRAN_PC-BUREAU-UC_24854_1.png`,
   networkSwitch: `${U}/2024/03/RUIJIE-RG-ES209GC-P-COMMUTATEUR-POE-GERE-PAR-LE-CLOUD-INTELLIGENT-GIGABIT-A-9-PORTS_SWITCH_29375_1.png`,
   printer: `${U}/2024/03/HP-IMPRIMANTE-JET-DENCRE-SYSTEME-SMART-TANK-519_IMPRIMANTE-A-RESERVOIRS-RECHARGEABLES_26335_1.png`,
   printerLaser: `${U}/2024/03/HP-IMPRIMANTE-LASERJET-MFP-M236D_IMPRIMANTE-A3_26395_1.png`,

@@ -3,6 +3,7 @@
   "configurations": [
     {
       "name": "dev",
+      "cwd": "storefront",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
