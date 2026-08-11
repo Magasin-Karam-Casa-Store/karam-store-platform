@@ -3,55 +3,86 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import * as Icons from "lucide-react";
 import { Menu, ChevronDown, ChevronRight } from "lucide-react";
 import { categories } from "@/data/categories";
 import type { Category } from "@/types";
 
+/**
+ * Only renders artwork the taxonomy actually provides. Falling back to a
+ * generic package glyph made every column header look identical, so categories
+ * without an image simply show none.
+ */
 function CategoryIcon({ category, className = "h-5 w-5" }: { category: Category; className?: string }) {
-  if (category.image) {
-    return <Image src={category.image} alt="" width={20} height={20} className={`${className} shrink-0 object-contain`} />;
+  if (!category.image) return null;
+  return (
+    <Image
+      src={category.image}
+      alt=""
+      width={20}
+      height={20}
+      className={`${className} shrink-0 object-contain`}
+    />
+  );
+}
+
+/**
+ * Drops the legacy duplicates the live taxonomy carries (for example
+ * "Composants de pc" alongside "Composants PC"), keeping the entry with the
+ * most children.
+ */
+function dedupe(nodes: Category[]): Category[] {
+  const normalise = (name: string) =>
+    name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+
+  const best = new Map<string, Category>();
+  for (const node of nodes) {
+    const key = normalise(node.name);
+    const current = best.get(key);
+    if (!current || (node.children?.length ?? 0) > (current.children?.length ?? 0)) {
+      best.set(key, node);
+    }
   }
-  const Icon =
-    (category.icon && (Icons as unknown as Record<string, Icons.LucideIcon>)[category.icon]) || Icons.Package;
-  return <Icon className={`${className} shrink-0`} />;
+  return [...best.values()];
 }
 
 /** Mega-menu panel listing a category's children and grandchildren. */
 function MegaPanel({ category }: { category: Category }) {
-  const columns = category.children ?? [];
+  const columns = dedupe(category.children ?? []);
   if (columns.length === 0) return null;
 
   return (
-    <div className="absolute left-0 top-full z-40 w-[min(920px,90vw)] rounded-b-lg border border-brand-border border-t-0 bg-white p-6 shadow-2xl">
-      <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
+    <div className="absolute left-0 top-full z-40 max-h-[70vh] w-[min(980px,92vw)] overflow-y-auto rounded-b-2xl border border-t-0 border-brand-border bg-white p-7 shadow-[var(--shadow-lg)]">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-7 md:grid-cols-3 lg:grid-cols-4">
         {columns.map((sub) => (
           <div key={sub.path}>
             <Link
               href={`/product-category/${sub.path}`}
-              className="mb-2 flex items-center gap-2 text-sm font-bold text-brand-navy transition-colors hover:text-brand"
+              className="mb-2.5 flex items-center gap-2 font-heading text-[13px] font-bold text-heading transition-colors hover:text-brand"
             >
-              <CategoryIcon category={sub} className="h-5 w-5" />
+              <CategoryIcon category={sub} className="h-4 w-4" />
               {sub.name}
             </Link>
-            <ul className="flex flex-col gap-1.5 border-l border-brand-border pl-3">
-              {(sub.children ?? []).map((leaf) => (
-                <li key={leaf.path}>
-                  <Link
-                    href={`/product-category/${leaf.path}`}
-                    className="text-xs text-gray-500 transition-colors hover:text-brand"
-                  >
-                    {leaf.name}
-                  </Link>
-                </li>
-              ))}
+            <ul className="flex flex-col gap-1.5">
+              {dedupe(sub.children ?? [])
+                .slice(0, 6)
+                .map((leaf) => (
+                  <li key={leaf.path}>
+                    <Link
+                      href={`/product-category/${leaf.path}`}
+                      className="text-[13px] text-soft transition-colors hover:text-brand"
+                    >
+                      {leaf.name}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
         ))}
       </div>
+
       <Link
         href={`/product-category/${category.path}`}
-        className="mt-5 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-brand hover:gap-2 transition-all"
+        className="mt-6 inline-flex items-center gap-1.5 border-t border-brand-border pt-5 text-xs font-bold uppercase tracking-wide text-brand transition-all hover:gap-2.5"
       >
         Voir tout {category.name} <ChevronRight className="h-3.5 w-3.5" />
       </Link>
@@ -97,31 +128,33 @@ export default function CategoryNav() {
                   </li>
                 ))}
               </ul>
-              <div className="flex-1 p-6">
+              <div className="max-h-[70vh] flex-1 overflow-y-auto p-7">
                 {categories
                   .filter((cat) => cat.path === hoveredInAll)
                   .map((cat) => (
-                    <div key={cat.path} className="grid grid-cols-3 gap-x-6 gap-y-5">
-                      {(cat.children ?? []).map((sub) => (
+                    <div key={cat.path} className="grid grid-cols-3 gap-x-7 gap-y-6">
+                      {dedupe(cat.children ?? []).map((sub) => (
                         <div key={sub.path}>
                           <Link
                             href={`/product-category/${sub.path}`}
-                            className="mb-1.5 flex items-center gap-2 text-sm font-bold hover:text-brand"
+                            className="mb-2 flex items-center gap-2 font-heading text-[13px] font-bold hover:text-brand"
                           >
-                            <CategoryIcon category={sub} />
+                            <CategoryIcon category={sub} className="h-4 w-4" />
                             {sub.name}
                           </Link>
-                          <ul className="flex flex-col gap-1">
-                            {(sub.children ?? []).map((leaf) => (
-                              <li key={leaf.path}>
-                                <Link
-                                  href={`/product-category/${leaf.path}`}
-                                  className="text-xs text-gray-500 hover:text-brand"
-                                >
-                                  {leaf.name}
-                                </Link>
-                              </li>
-                            ))}
+                          <ul className="flex flex-col gap-1.5">
+                            {dedupe(sub.children ?? [])
+                              .slice(0, 5)
+                              .map((leaf) => (
+                                <li key={leaf.path}>
+                                  <Link
+                                    href={`/product-category/${leaf.path}`}
+                                    className="text-[13px] text-soft hover:text-brand"
+                                  >
+                                    {leaf.name}
+                                  </Link>
+                                </li>
+                              ))}
                           </ul>
                         </div>
                       ))}

@@ -18,57 +18,93 @@ export default function Header() {
 
   return (
     <header className="border-b border-brand-border bg-white">
-      <div className="container-app flex items-center gap-4 py-4">
+      <div className="container-app flex items-center gap-4 py-4 lg:gap-8">
         <MobileMenu />
-        {/* Fixed-ratio box so next/image has both dimensions and stops warning
-            about a CSS-modified aspect ratio. */}
-        <Link
-          href="/"
-          aria-label="Karamtech - Accueil"
-          className="relative h-10 w-[150px] shrink-0 sm:h-12 sm:w-[180px]"
-        >
-          <Image
-            src={LOGO_URL}
-            alt="Karamtech"
-            fill
-            priority
-            sizes="180px"
-            className="object-contain object-left"
-          />
+
+        {/* Karamtech's own logo, in a fixed-ratio box so next/image has both
+            dimensions and does not warn about a CSS-modified aspect ratio. */}
+        <Link href="/" aria-label="Karamtech - Accueil" className="flex shrink-0 items-center gap-3">
+          <span className="relative block h-10 w-[150px] sm:h-12 sm:w-[178px]">
+            <Image
+              src={LOGO_URL}
+              alt="Karamtech"
+              fill
+              priority
+              sizes="178px"
+              className="object-contain object-left"
+            />
+          </span>
+          <span className="hidden border-l border-brand-border pl-3 text-[10px] font-bold uppercase leading-tight tracking-[0.16em] text-muted lg:block">
+            IT
+            <br />
+            Sécurité
+            <br />
+            Énergie
+          </span>
         </Link>
 
         <div className="hidden flex-1 md:block">
           <SearchBar />
         </div>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-4">
-          <Link href="/mon-compte" className="hidden flex-col items-center text-xs text-brand-navy hover:text-brand sm:flex">
-            <User className="h-6 w-6" />
-            <span className="mt-0.5">Mon compte</span>
-          </Link>
-          <Link href="/wishlist" className="relative hidden flex-col items-center text-xs text-brand-navy hover:text-brand sm:flex">
-            <Heart className="h-6 w-6" />
-            <span className="mt-0.5">Favoris</span>
-            {mounted && wishlistCount > 0 && (
-              <span className="absolute -right-2 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-accent text-[10px] font-bold text-white">
-                {wishlistCount}
-              </span>
-            )}
-          </Link>
-          <button onClick={openDrawer} className="relative flex flex-col items-center text-xs text-brand-navy hover:text-brand">
-            <ShoppingCart className="h-6 w-6" />
-            <span className="mt-0.5">Panier</span>
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+          <HeaderAction href="/mon-compte" label="Mon compte">
+            <User className="h-5 w-5" />
+          </HeaderAction>
+
+          <HeaderAction href="/wishlist" label="Favoris" badge={mounted ? wishlistCount : 0} badgeClass="bg-brand-accent">
+            <Heart className="h-5 w-5" />
+          </HeaderAction>
+
+          <button
+            onClick={openDrawer}
+            className="relative flex flex-col items-center gap-1 rounded-lg px-2.5 py-2 text-[11px] font-semibold text-heading transition-colors hover:bg-surface-muted hover:text-brand"
+          >
+            <ShoppingCart className="h-5 w-5" />
+            <span className="hidden sm:block">Panier</span>
             {mounted && totalItems > 0 && (
-              <span className="absolute -right-2 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
+              <span className="absolute right-0 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-white">
                 {totalItems}
               </span>
             )}
           </button>
         </div>
       </div>
+
       <div className="container-app pb-3 md:hidden">
         <SearchBar />
       </div>
     </header>
+  );
+}
+
+function HeaderAction({
+  href,
+  label,
+  badge = 0,
+  badgeClass = "bg-brand",
+  children,
+}: {
+  href: string;
+  label: string;
+  badge?: number;
+  badgeClass?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="relative hidden flex-col items-center gap-1 rounded-lg px-2.5 py-2 text-[11px] font-semibold text-heading transition-colors hover:bg-surface-muted hover:text-brand sm:flex"
+    >
+      {children}
+      <span>{label}</span>
+      {badge > 0 && (
+        <span
+          className={`absolute right-0 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ${badgeClass}`}
+        >
+          {badge}
+        </span>
+      )}
+    </Link>
   );
 }
