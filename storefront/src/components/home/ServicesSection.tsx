@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { editorialBanners } from "@/data/media";
 import { Reveal } from "@/components/ui/reveal";
@@ -72,16 +71,24 @@ export default function ServicesSection() {
 
         <Reveal direction="left">
           <div className="relative overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
-            <div className="relative aspect-[16/10]">
-              <Image
-                src={editorialBanners.informatique}
-                alt="Intervention technique Karamtech"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 to-transparent" />
-            </div>
+            {/* Muted, looping and inline so it behaves as ambient artwork on
+                every browser, including iOS which blocks autoplay otherwise. */}
+            <video
+              className="aspect-[16/10] w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={editorialBanners.informatique}
+              aria-label="Intervention technique Karamtech"
+            >
+              <source src="/video/installation.mp4" type="video/mp4" />
+            </video>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy/60 to-transparent"
+            />
           </div>
         </Reveal>
       </div>

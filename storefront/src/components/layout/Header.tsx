@@ -23,24 +23,19 @@ export default function Header() {
 
         {/* Karamtech's own logo, in a fixed-ratio box so next/image has both
             dimensions and does not warn about a CSS-modified aspect ratio. */}
-        <Link href="/" aria-label="Karamtech - Accueil" className="flex shrink-0 items-center gap-3">
-          <span className="relative block h-10 w-[150px] sm:h-12 sm:w-[178px]">
-            <Image
-              src={LOGO_URL}
-              alt="Karamtech"
-              fill
-              priority
-              sizes="178px"
-              className="object-contain object-left"
-            />
-          </span>
-          <span className="hidden border-l border-brand-border pl-3 text-[10px] font-bold uppercase leading-tight tracking-[0.16em] text-muted lg:block">
-            IT
-            <br />
-            Sécurité
-            <br />
-            Énergie
-          </span>
+        <Link
+          href="/"
+          aria-label="Karamtech - Accueil"
+          className="relative block h-10 w-[150px] shrink-0 sm:h-12 sm:w-[178px]"
+        >
+          <Image
+            src={LOGO_URL}
+            alt="Karamtech"
+            fill
+            priority
+            sizes="178px"
+            className="object-contain object-left"
+          />
         </Link>
 
         <div className="hidden flex-1 md:block">

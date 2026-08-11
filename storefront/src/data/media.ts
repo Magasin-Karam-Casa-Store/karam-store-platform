@@ -1,5 +1,7 @@
 const U = "https://karamtech.ma/wp-content/uploads";
 
+export const PAYMENT_LOGOS_URL = `${U}/2024/03/Paiement-Logos-Footer.png`;
+
 export const LOGO_URL = `${U}/2024/03/karamtech.png`;
 
 /**

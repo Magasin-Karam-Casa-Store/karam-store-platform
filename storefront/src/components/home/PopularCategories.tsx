@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { categoryBanners } from "@/data/media";
+import { editorialBanners } from "@/data/media";
 import { categories } from "@/data/categories";
 import { products } from "@/data/products";
 import SectionTitle from "@/components/ui/section-title";
@@ -17,28 +17,28 @@ const tiles = [
     title: "Informatique",
     tagline: "PC, réseaux & serveurs",
     href: "/product-category/informatique",
-    image: categoryBanners.informatique,
+    image: editorialBanners.informatique,
     span: "lg:row-span-2",
   },
   {
     title: "Impression",
     tagline: "Imprimantes & consommables",
     href: "/product-category/informatique/impression",
-    image: categoryBanners.objetsConnectes,
+    image: editorialBanners.impression,
     span: "",
   },
   {
     title: "Sécurité",
     tagline: "Caméras & contrôle d'accès",
     href: "/product-category/securite",
-    image: categoryBanners.securite,
+    image: editorialBanners.securite,
     span: "lg:row-span-2",
   },
   {
     title: "Image et son",
     tagline: "Projection & sonorisation",
     href: "/product-category/imageetsonorisation",
-    image: categoryBanners.imageEtSon,
+    image: editorialBanners.imageEtSon,
     span: "",
   },
 ].map((tile) => ({
