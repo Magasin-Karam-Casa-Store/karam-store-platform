@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function GarantieEtSavPage() {
   return (
@@ -51,9 +52,9 @@ export default function GarantieEtSavPage() {
 
       <h2 className="text-lg font-bold text-brand-navy">Faire une demande de prise en charge</h2>
       <p>
-        Contactez notre service après-vente au +212 5 22 00 00 00 ou par e-mail à contact@karamtech.ma en indiquant
+        Contactez notre service après-vente au {STORE.phone} ou par e-mail à {STORE.email} en indiquant
         votre numéro de facture, la référence et le numéro de série du produit, ainsi qu&apos;une description
-        précise du problème rencontré (message d&apos;erreur, circonstances d&apos;apparition, photos ou vidéo si
+        précise du problème rencontré (message d&apos;erreur, circumstances d&apos;apparition, photos ou vidéo si
         possible). Un numéro de dossier SAV vous est alors attribué.
       </p>
       <p>

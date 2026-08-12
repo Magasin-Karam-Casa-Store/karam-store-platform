@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts } from "@/data/products";
+import { getLiveProductBySlug, getLiveRelatedProducts } from "@/lib/karamtech-api";
 import { getCategoryBreadcrumb } from "@/data/categories";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ProductGallery from "@/components/product/ProductGallery";
@@ -8,12 +8,10 @@ import AddToCartBox from "@/components/product/AddToCartBox";
 import ProductTabs from "@/components/product/ProductTabs";
 import ProductCard from "@/components/product/ProductCard";
 
-// No generateStaticParams on purpose: the catalog has 1200+ products and
-// prerendering every one of them would make production builds crawl. The route
-// is rendered on demand instead.
+// Rendered dynamically on demand to fetch live prices/stock from Karamtech API.
 export async function generateMetadata({ params }: PageProps<"/produit/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getLiveProductBySlug(slug);
 
   if (!product) {
     return {
@@ -39,12 +37,12 @@ export async function generateMetadata({ params }: PageProps<"/produit/[slug]">)
 
 export default async function ProductPage({ params }: PageProps<"/produit/[slug]">) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getLiveProductBySlug(slug);
 
   if (!product) notFound();
 
   const breadcrumb = getCategoryBreadcrumb(product.categoryPath);
-  const related = getRelatedProducts(product);
+  const related = getLiveRelatedProducts(product);
 
   return (
     <>

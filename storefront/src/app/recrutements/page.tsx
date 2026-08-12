@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function RecrutementsPage() {
   return (
@@ -49,7 +50,7 @@ export default function RecrutementsPage() {
 
       <h2 className="text-lg font-bold text-brand-navy">Comment postuler</h2>
       <p>
-        Envoyez votre CV accompagné d&apos;une courte lettre de motivation à l&apos;adresse contact@karamtech.ma, en
+        Envoyez votre CV accompagné d&apos;une courte lettre de motivation à l&apos;adresse {STORE.email}, en
         indiquant en objet l&apos;intitulé du poste visé (par exemple « Candidature — Technicien support »). Merci
         de préciser votre disponibilité et votre ville de résidence. Les candidatures spontanées sont également les
         bienvenues : mentionnez simplement « Candidature spontanée » en objet et décrivez le type de fonction qui
@@ -58,14 +59,14 @@ export default function RecrutementsPage() {
       <p>
         Chaque candidature est étudiée avec attention. Les profils retenus sont contactés sous quinze jours pour un
         premier entretien, généralement suivi d&apos;un échange technique avec le responsable du service concerné.
-        Pour toute question sur nos recrutements, vous pouvez nous joindre au +212 5 22 00 00 00.
+        Pour toute question sur nos recrutements, vous pouvez nous joindre au {STORE.phone}.
       </p>
 
       <h2 className="text-lg font-bold text-brand-navy">Stages et alternance</h2>
       <p>
         Karamtech accueille chaque année des stagiaires et des alternants issus des filières informatique,
         électronique, réseaux, commerce et logistique. Les demandes de stage se font par e-mail à
-        contact@karamtech.ma, de préférence deux mois avant la date de début souhaitée, en joignant votre convention
+        {STORE.email}, de préférence deux mois avant la date de début souhaitée, en joignant votre convention
         type et le descriptif attendu de la mission.
       </p>
     </StaticPage>

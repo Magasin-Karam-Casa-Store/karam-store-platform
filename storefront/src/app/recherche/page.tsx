@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PackageSearch } from "lucide-react";
-import { searchProducts } from "@/data/products";
+import { getLiveSearchProducts } from "@/lib/karamtech-api";
 import { findCategoryByPath } from "@/data/categories";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import CategoryListing from "@/components/category/CategoryListing";
@@ -21,7 +21,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/recherche
   const query = firstValue(q, "");
   const categoryPath = firstValue(cat, "all");
 
-  const results = searchProducts(query, categoryPath);
+  const results = await getLiveSearchProducts(query, categoryPath);
   const category = categoryPath !== "all" ? findCategoryByPath(categoryPath) : undefined;
 
   const emptyMessage = [

@@ -28,7 +28,7 @@ function useScrolled(threshold = 600): boolean {
 
 export default function FloatingActions() {
   const scrolled = useScrolled();
-  const whatsapp = `https://wa.me/${STORE.phoneHref.replace(/\D/g, "")}`;
+  const whatsapp = STORE.whatsappHref;
 
   return (
     <div className="fixed bottom-5 right-5 z-50 grid justify-items-end gap-2.5">

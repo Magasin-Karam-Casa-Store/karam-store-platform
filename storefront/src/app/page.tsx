@@ -7,10 +7,10 @@ import ProductCarousel from "@/components/home/ProductCarousel";
 import ServicesSection from "@/components/home/ServicesSection";
 import Newsletter from "@/components/home/Newsletter";
 import SectionTitle from "@/components/ui/section-title";
-import { getBestSellers } from "@/data/products";
+import { getLiveBestSellers } from "@/lib/karamtech-api";
 
-export default function Home() {
-  const bestSellers = getBestSellers(12);
+export default async function Home() {
+  const bestSellers = await getLiveBestSellers(12);
 
   return (
     <>

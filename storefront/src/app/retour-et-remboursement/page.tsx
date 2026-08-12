@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function RetourEtRemboursementPage() {
   return (
@@ -46,7 +47,7 @@ export default function RetourEtRemboursementPage() {
 
       <h2 className="text-lg font-bold text-brand-navy">Comment initier un retour</h2>
       <p>
-        Contactez notre service client au +212 5 22 00 00 00 ou par e-mail à contact@karamtech.ma en précisant votre
+        Contactez notre service client au {STORE.phone} ou par e-mail à {STORE.email} en précisant votre
         numéro de commande, la référence du produit concerné et le motif du retour. Joignez si possible des photos
         du produit et de son emballage : cela accélère sensiblement le traitement de votre demande.
       </p>

@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function PourquoiKaramtechPage() {
   return (
@@ -62,7 +63,7 @@ export default function PourquoiKaramtechPage() {
         Karamtech accompagne les sociétés, administrations, écoles et associations dans leurs projets
         d&apos;équipement : établissement de devis sous 24 heures, réponse aux appels d&apos;offres, facturation
         conforme, installation sur site et contrats de maintenance. Pour toute demande professionnelle, contactez
-        notre service commercial au +212 5 22 00 00 00 ou à contact@karamtech.ma.
+        notre service commercial au {STORE.phone} ou à {STORE.email}.
       </p>
     </StaticPage>
   );

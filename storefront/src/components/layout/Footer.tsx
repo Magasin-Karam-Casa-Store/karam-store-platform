@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/components/ui/social-icons";
 import { LOGO_URL, PAYMENT_LOGOS_URL } from "@/data/media";
+import { STORE } from "@/lib/config";
 
 const legalLinks = [
   { label: "Recrutements", href: "/recrutements" },
@@ -19,7 +20,6 @@ const supportLinks = [
   { label: "Livraison & Retours", href: "/livraison" },
   { label: "Suivi de commande", href: "/suivi-commande" },
   { label: "FAQ", href: "/faq" },
-  { label: "Mon compte", href: "/mon-compte" },
 ];
 
 const corporateLinks = [
@@ -51,16 +51,21 @@ export default function Footer() {
     <footer className="mt-auto bg-brand-navy text-white">
       <div className="container-app py-14">
         <div className="flex flex-col justify-between gap-8 border-b border-white/10 pb-10 lg:flex-row lg:items-center">
-          <Link href="/" className="inline-block" aria-label="Karamtech - Accueil">
-            <Image
-              src={LOGO_URL}
-              alt="Karamtech"
-              width={220}
-              height={60}
-              style={{ width: "auto", height: "auto" }}
-              className="max-h-12 w-auto object-contain brightness-0 invert"
-            />
-          </Link>
+          <div className="flex flex-col gap-2">
+            <Link href="/" className="inline-block" aria-label="Karamtech Casablanca - Accueil">
+              <Image
+                src={LOGO_URL}
+                alt="Karamtech"
+                width={220}
+                height={60}
+                style={{ width: "auto", height: "auto" }}
+                className="max-h-12 w-auto object-contain brightness-0 invert"
+              />
+            </Link>
+            <span className="text-xs font-medium text-white/60">
+              {STORE.branchName} — Filiale officielle du {STORE.parentCompany}
+            </span>
+          </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
             <span className="text-lg font-bold">Nous suivre</span>
             <div className="flex gap-3">
@@ -85,15 +90,19 @@ export default function Footer() {
             <h4 className="mb-4 text-base font-bold text-white">Nous contacter</h4>
             <ul className="flex flex-col gap-3 text-sm text-white/60">
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-accent" /> Casablanca, Maroc
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-accent" /> {STORE.address}
               </li>
               <li className="flex items-start gap-2.5">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-accent" />
-                <a href="tel:+212522000000" className="hover:text-brand-accent">+212 5 22 00 00 00</a>
+                <a href={STORE.phoneHref} className="hover:text-brand-accent">Fixe : {STORE.phone}</a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#25d366]" />
+                <a href={STORE.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent">WhatsApp : {STORE.whatsappPhone}</a>
               </li>
               <li className="flex items-start gap-2.5">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-accent" />
-                <a href="mailto:contact@karamtech.ma" className="hover:text-brand-accent">contact@karamtech.ma</a>
+                <a href={`mailto:${STORE.email}`} className="hover:text-brand-accent">{STORE.email}</a>
               </li>
             </ul>
           </div>
@@ -103,7 +112,7 @@ export default function Footer() {
       <div className="border-t border-white/10 py-5">
         <div className="container-app flex flex-col items-center justify-between gap-4 text-xs text-white/50 sm:flex-row">
           <span>
-            <strong className="font-bold text-white/80">KARAMTECH</strong> {new Date().getFullYear()} — Tous droits réservés.
+            <strong className="font-bold text-white/80">KARAMTECH CASABLANCA</strong> {new Date().getFullYear()} — Filiale du {STORE.parentCompany}. Tous droits réservés.
           </span>
           {/* Karamtech's own payment-methods strip (Visa, Mastercard, CMI,
               Amana, cash on delivery) rather than text badges. */}

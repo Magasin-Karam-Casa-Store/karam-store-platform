@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function QuiSommesNousPage() {
   return (
@@ -69,7 +70,7 @@ export default function QuiSommesNousPage() {
       <p>
         La confiance de nos clients repose sur trois principes simples : des produits d&apos;origine et garantis, un
         conseil technique honnête avant l&apos;achat, et un service après-vente qui répond réellement. Notre équipe
-        est joignable au +212 5 22 00 00 00 ou à l&apos;adresse contact@karamtech.ma, du lundi au samedi.
+        est joignable au {STORE.phone} ou sur WhatsApp au {STORE.whatsappPhone} ou à l&apos;adresse {STORE.email}, du lundi au samedi.
       </p>
     </StaticPage>
   );
