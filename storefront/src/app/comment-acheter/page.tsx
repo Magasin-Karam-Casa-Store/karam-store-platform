@@ -1,4 +1,5 @@
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function CommentAcheterPage() {
   return (
@@ -48,7 +49,7 @@ export default function CommentAcheterPage() {
       <ul className="list-disc pl-5 flex flex-col gap-1.5">
         <li>Carte bancaire Visa ou Mastercard via la plateforme sécurisée CMI.</li>
         <li>Paiement à la livraison (espèces remises au livreur au moment de la réception).</li>
-        <li>Mandat Amana pour les clients ne disposant pas de carte bancaire.</li>
+        <li>Mandat Amana pour les clients ne disponant pas de carte bancaire.</li>
         <li>Virement bancaire, sur demande, pour les commandes professionnelles et les marchés publics.</li>
       </ul>
       <p>
@@ -75,8 +76,8 @@ export default function CommentAcheterPage() {
       <h2 className="text-lg font-bold text-brand-navy">Besoin d&apos;aide pour commander ?</h2>
       <p>
         Si vous préférez commander par téléphone, ou si vous souhaitez un devis pour un projet d&apos;équipement,
-        notre service commercial vous répond au +212 5 22 00 00 00 du lundi au samedi. Vous pouvez également nous
-        écrire à contact@karamtech.ma en précisant les références souhaitées : nous vous rappelons pour finaliser
+        notre service commercial vous répond au {STORE.phone} du lundi au samedi. Vous pouvez également nous
+        écrire à {STORE.email} en précisant les références souhaitées : nous vous rappelons pour finaliser
         votre commande.
       </p>
     </StaticPage>

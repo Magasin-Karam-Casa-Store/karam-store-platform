@@ -1,5 +1,6 @@
 import Link from "next/link";
 import StaticPage from "@/components/layout/StaticPage";
+import { STORE } from "@/lib/config";
 
 export default function CookiesPage() {
   return (
@@ -76,8 +77,8 @@ export default function CookiesPage() {
         <Link href="/politique-de-confidentialite" className="font-medium text-brand hover:underline">
           politique de confidentialité
         </Link>
-        . Pour toute question relative aux cookies, vous pouvez nous écrire à contact@karamtech.ma ou nous appeler
-        au +212 5 22 00 00 00.
+        . Pour toute question relative aux cookies, vous pouvez nous écrire à {STORE.email} ou nous appeler
+        au {STORE.phone}.
       </p>
     </StaticPage>
   );

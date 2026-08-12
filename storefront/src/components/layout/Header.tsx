@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { User, Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { LOGO_URL } from "@/data/media";
 import SearchBar from "@/components/layout/SearchBar";
 import MobileMenu from "@/components/layout/MobileMenu";
@@ -43,10 +43,6 @@ export default function Header() {
         </div>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
-          <HeaderAction href="/mon-compte" label="Mon compte">
-            <User className="h-5 w-5" />
-          </HeaderAction>
-
           <HeaderAction href="/wishlist" label="Favoris" badge={mounted ? wishlistCount : 0} badgeClass="bg-brand-accent">
             <Heart className="h-5 w-5" />
           </HeaderAction>

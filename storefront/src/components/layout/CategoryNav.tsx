@@ -127,16 +127,20 @@ function MegaPanel({ category }: { category: Category }) {
         {/* Promo tile — doubles as the "see everything" entry point. */}
         <Link
           href={`/product-category/${category.path}`}
-          className="group hidden w-64 shrink-0 flex-col justify-end rounded-2xl p-7 text-white lg:flex"
+          className="group hidden w-64 shrink-0 flex-col justify-end overflow-hidden rounded-2xl p-7 text-white lg:flex"
           style={{ background: promo.gradient }}
         >
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
-            Sélection {category.name}
-          </span>
-          <p className="mt-2.5 font-heading text-[22px] font-extrabold leading-[1.2]">{promo.title}</p>
-          <span className="mt-4 inline-flex items-center gap-2 font-heading text-sm font-bold transition-all group-hover:gap-3">
-            Découvrir <ChevronRight className="h-4 w-4" />
-          </span>
+          <div>
+            <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+              Sélection {category.name}
+            </span>
+            <p className="mt-2.5 font-heading text-[22px] font-extrabold leading-[1.2]">
+              {promo.title}
+            </p>
+            <span className="mt-4 inline-flex items-center gap-2 font-heading text-sm font-bold transition-all group-hover:gap-3">
+              Découvrir <ChevronRight className="h-4 w-4" />
+            </span>
+          </div>
         </Link>
       </div>
     </div>

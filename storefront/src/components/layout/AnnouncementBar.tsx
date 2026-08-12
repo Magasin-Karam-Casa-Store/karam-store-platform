@@ -14,7 +14,7 @@ export default function AnnouncementBar() {
         <span className="font-semibold">Besoin d&apos;un conseil avant d&apos;acheter ?</span>
         <a
           href={STORE.phoneHref}
-          className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-bold text-brand shadow-[var(--shadow-sm)] transition-colors hover:text-brand-dark"
+          className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-bold text-brand shadow-[var(--shadow-sm)] transition-colors hover:text-brand-dark"
         >
           <Phone className="h-3.5 w-3.5" />
           {STORE.phone}

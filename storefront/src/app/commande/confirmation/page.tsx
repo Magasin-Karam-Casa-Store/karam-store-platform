@@ -67,9 +67,6 @@ export default function OrderConfirmationPage() {
             <p className="mt-2 text-sm text-emerald-800/80">
               Votre commande a bien été enregistrée. Notre équipe vous contactera pour la confirmer.
             </p>
-            <p className="mt-4 inline-block rounded-md border border-emerald-300 bg-white px-4 py-2 font-heading text-sm font-bold tracking-wide text-emerald-800">
-              Référence : {order.reference}
-            </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">

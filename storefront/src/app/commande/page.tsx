@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Lock, Truck, Landmark, CreditCard, ShieldCheck } from "lucide-react";
+import { Lock } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useOrderStore, type PaymentMethod } from "@/store/order";
 import { useMounted } from "@/lib/useMounted";
@@ -36,33 +36,6 @@ const EMPTY_FORM: FormState = {
 };
 
 type FieldErrors = Partial<Record<keyof FormState | "terms", string>>;
-
-const PAYMENT_OPTIONS: {
-  value: PaymentMethod;
-  label: string;
-  description: string;
-  Icon: typeof Truck;
-}[] = [
-  {
-    value: "cod",
-    label: "Paiement à la livraison",
-    description: "Payez en espèces au livreur à la réception de votre commande.",
-    Icon: Truck,
-  },
-  {
-    value: "virement",
-    label: "Virement bancaire",
-    description: "Nos coordonnées bancaires vous seront envoyées par e-mail après validation.",
-    Icon: Landmark,
-  },
-  {
-    value: "cmi",
-    label: "Carte bancaire (CMI)",
-    description:
-      "Vous serez redirigé vers la plateforme de paiement sécurisée CMI pour finaliser le règlement.",
-    Icon: CreditCard,
-  },
-];
 
 /** Moroccan mobile/landline, tolerant of spaces, dashes and +212. */
 const PHONE_PATTERN = /^(?:\+212|0)\s?[5-7](?:[\s.-]?\d{2}){4}$/;
@@ -129,8 +102,39 @@ export default function CheckoutPage() {
     }
 
     setSubmitting(true);
+    const ref = buildOrderReference();
+
+    const itemsSummary = items
+      .map((i) => `* ${i.quantity}x ${i.title} (${formatMAD(i.price * i.quantity)})`)
+      .join("\n");
+
+    const message = `Bonjour Karamtech Casablanca,
+
+Je souhaite passer la commande suivante :
+
+*INFORMATIONS CLIENT :*
+- Nom : ${form.firstName} ${form.lastName}
+- Téléphone : ${form.phone}
+- Email : ${form.email}
+- Adresse : ${form.address}, ${form.city}${form.postalCode ? ` (${form.postalCode})` : ""}
+${form.notes ? `- Notes : ${form.notes}\n` : ""}
+*PRODUITS COMMANDÉS :*
+${itemsSummary}
+
+- Sous-total : ${formatMAD(sub)}
+- Frais de livraison : ${shipping === 0 ? "Gratuit" : formatMAD(shipping)}
+*TOTAL : ${formatMAD(total)}*
+
+Mode de paiement : Paiement à la livraison`;
+
+    const whatsappUrl = `https://wa.me/${STORE.whatsappPhone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+
+    if (typeof window !== "undefined") {
+      window.open(whatsappUrl, "_blank");
+    }
+
     placeOrder({
-      reference: buildOrderReference(),
+      reference: ref,
       items,
       subtotal: sub,
       shipping,
@@ -274,47 +278,6 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </section>
-
-            {/* ---------------- Payment method ---------------- */}
-            <section>
-              <h2 className="mb-4 font-heading text-lg font-bold uppercase text-heading">
-                Mode de paiement
-              </h2>
-              <div className="flex flex-col gap-3">
-                {PAYMENT_OPTIONS.map(({ value, label, description, Icon }) => (
-                  <label
-                    key={value}
-                    className={cn(
-                      "flex cursor-pointer gap-3 rounded-lg border p-4 transition-colors",
-                      payment === value
-                        ? "border-brand bg-brand/5"
-                        : "border-brand-border hover:border-brand/50"
-                    )}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      value={value}
-                      checked={payment === value}
-                      onChange={() => setPayment(value)}
-                      className="mt-1 accent-[#007bc4]"
-                    />
-                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
-                    <span>
-                      <span className="block text-sm font-semibold text-heading">{label}</span>
-                      <span className="mt-0.5 block text-xs text-body">{description}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-              {payment === "cmi" && (
-                <p className="mt-3 flex items-start gap-2 rounded-md bg-brand-gray p-3 text-xs text-body">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  Aucune donnée bancaire n&apos;est saisie ni stockée sur ce site. Le paiement est
-                  traité directement par la plateforme sécurisée du Centre Monétique Interbancaire.
-                </p>
-              )}
-            </section>
           </div>
 
           {/* ---------------- Order summary ---------------- */}
@@ -379,9 +342,13 @@ export default function CheckoutPage() {
             </label>
             {errors.terms && <p className="mt-1 text-xs text-red-600">{errors.terms}</p>}
 
-            <Button type="submit" size="lg" className="mt-5 w-full" disabled={submitting}>
-              <Lock className="h-4 w-4" />
-              {submitting ? "Traitement…" : "Confirmer la commande"}
+            <Button
+              type="submit"
+              size="lg"
+              className="mt-5 w-full bg-[#25d366] font-bold text-white hover:bg-[#1eb956]"
+              disabled={submitting}
+            >
+              {submitting ? "Traitement…" : "Commander sur WhatsApp"}
             </Button>
 
             <p className="mt-3 text-center text-xs text-muted">

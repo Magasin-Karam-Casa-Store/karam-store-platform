@@ -1,10 +1,7 @@
-/**
- * Promo panel shown on the right of each mega menu, per the design system.
- * Keyed by the top-level category slug in the live taxonomy.
- */
 export interface NavPromo {
   title: string;
   gradient: string;
+  image?: string;
 }
 
 export const navPromos: Record<string, NavPromo> = {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { findCategoryByPath, getCategoryBreadcrumb, getDescendantPaths } from "@/data/categories";
-import { getProductsByCategoryPaths } from "@/data/products";
+import { getLiveProductsByCategory } from "@/lib/karamtech-api";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import CategoryListing from "@/components/category/CategoryListing";
 
@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: PageProps<"/product-categ
   if (!category) notFound();
 
   const descendantPaths = getDescendantPaths(path);
-  const products = getProductsByCategoryPaths(descendantPaths);
+  const products = await getLiveProductsByCategory(descendantPaths);
   const breadcrumb = getCategoryBreadcrumb(path);
   const children = category.children ?? [];
 
